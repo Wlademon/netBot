@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28426afc-b1b2-424f-a64f-8f47d72dc45e" name="Changes" comment="">
+    <list default="true" id="28426afc-b1b2-424f-a64f-8f47d72dc45e" name="Changes" comment="Fix&#10;add response">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/response.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/actions.go" beforeDir="false" afterPath="$PROJECT_DIR$/actions.go" afterDir="false" />
@@ -100,6 +101,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fix&#10;add response" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix&#10;add response" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
