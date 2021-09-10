@@ -1,36 +1,17 @@
 package main
 
-import (
-	"github.com/go-chi/chi/v5"
-	"net/http"
-	"strconv"
-)
+import "github.com/go-chi/chi/v5"
 
-type server struct {
-	router    *chi.Mux
-	serverUrl string
-}
+func GetRoutes(c *controller) func(router *chi.Mux) {
+	return func(router *chi.Mux) {
+		router.Group(func(r chi.Router) {
+			r.With(
+				jsonInCtxStruct(c.GetStructFunc("POST.")),
+				RootRequest,
+			).Post("/", c.GetAction("POST."))
+		})
 
-func (s *server) GetRouter() *chi.Mux {
-	return s.router
-}
-
-func (s *server) Start() error {
-	return http.ListenAndServe(s.serverUrl, s.router)
-}
-
-func (s *server) ModifyRouter(modifier func(router *chi.Mux)) *server {
-	modifier(s.router)
-	return s
-}
-
-func ListenServer(serverName string, port uint) *server {
-	return &server{
-		router:    chi.NewRouter(),
-		serverUrl: serverName + ":" + strconv.Itoa(int(port)),
+		router.Get("/", c.GetAction("."))
+		router.Get("/home", c.GetAction(".home"))
 	}
-}
-
-func ListenPort(port uint) *server {
-	return ListenServer("", port)
 }

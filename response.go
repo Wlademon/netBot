@@ -9,7 +9,7 @@ import (
 type Response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`
-	Error   string      `json:"error"`
+	Error   interface{} `json:"error"`
 }
 
 func JsonResponse(data Response, writer http.ResponseWriter) {
@@ -25,7 +25,9 @@ func JsonResponse(data Response, writer http.ResponseWriter) {
 func ErrorResponse(writer http.ResponseWriter, response Response, code int) {
 	writer.Header().Set("Content-Type", "application/json")
 	bytes, _ := json.Marshal(response)
-	http.Error(writer, string(bytes), code)
+	writer.Header().Set("X-Content-Type-Options", "nosniff")
+	writer.WriteHeader(code)
+	_, _ = fmt.Fprintln(writer, string(bytes))
 }
 
 func ForbiddenResponse(writer http.ResponseWriter) {

@@ -9,11 +9,10 @@ func SetActions(c *controller) {
 	c.AddAction(".", func(writer http.ResponseWriter, request *http.Request) {
 		JsonResponse(Response{
 			Success: true,
-			Data: struct {
-				Test string `json:"test"`
-			}{Test: "1112"},
+			Data:    "Root page",
 		}, writer)
-	})
+	}).AddStructFunc(".", func() interface{} { return new(RootData) })
+
 	c.AddAction("POST.", func(writer http.ResponseWriter, request *http.Request) {
 
 		JsonResponse(Response{

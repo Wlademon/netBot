@@ -16,12 +16,11 @@ func jsonInCtxStruct(f func() interface{}) func(handler http.Handler) http.Handl
 			if err == nil {
 				jsonCtx = context.WithValue(request.Context(), "json", obj)
 			} else {
-				jsonCtx = context.WithValue(request.Context(), "json", nil)
+				InvalidDataResponse(writer, err)
+				return
 			}
 
-			request = request.WithContext(jsonCtx)
-
-			handler.ServeHTTP(writer, request)
+			handler.ServeHTTP(writer, request.WithContext(jsonCtx))
 		})
 	}
 }
@@ -33,6 +32,9 @@ func jsonInContext(handler http.Handler) http.Handler {
 		if err == nil {
 			jsonCtx := context.WithValue(request.Context(), "json", p)
 			request = request.WithContext(jsonCtx)
+		} else {
+			InvalidDataResponse(writer, err)
+			return
 		}
 
 		handler.ServeHTTP(writer, request)
