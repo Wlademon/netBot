@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-chi/chi/v5"
 	"net/http"
 )
 
@@ -31,11 +32,7 @@ func ErrorResponse(writer http.ResponseWriter, response Response, code int) {
 }
 
 func ForbiddenResponse(writer http.ResponseWriter) {
-	ErrorResponse(writer, Response{
-		Success: false,
-		Data:    nil,
-		Error:   http.StatusText(http.StatusForbidden),
-	}, http.StatusForbidden)
+	ExceptionResponse(writer, http.StatusForbidden)
 }
 
 func InvalidDataResponse(writer http.ResponseWriter, err error) {
@@ -44,4 +41,23 @@ func InvalidDataResponse(writer http.ResponseWriter, err error) {
 		Data:    nil,
 		Error:   err.Error(),
 	}, http.StatusUnprocessableEntity)
+}
+
+func ExceptionResponse(writer http.ResponseWriter, status int) {
+	ErrorResponse(writer, Response{
+		Success: false,
+		Data:    nil,
+		Error:   http.StatusText(status),
+	}, status)
+}
+
+func SetErrorResponse() func(router *chi.Mux) {
+	return func(router *chi.Mux) {
+		router.NotFound(func(writer http.ResponseWriter, request *http.Request) {
+			ExceptionResponse(writer, http.StatusNotFound)
+		})
+		router.MethodNotAllowed(func(writer http.ResponseWriter, request *http.Request) {
+			ExceptionResponse(writer, http.StatusMethodNotAllowed)
+		})
+	}
 }

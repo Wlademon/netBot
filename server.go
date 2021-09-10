@@ -36,5 +36,5 @@ func ListenPort(port uint) *server {
 }
 
 func StartServe(host string, port uint, c *controller) {
-	_ = ListenServer(host, port).ModifyRouter(GetRoutes(c)).Start()
+	_ = ListenServer(host, port).ModifyRouter(GetRoutes(c)).ModifyRouter(SetErrorResponse()).Start()
 }

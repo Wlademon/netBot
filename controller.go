@@ -15,6 +15,15 @@ func NewController() *controller {
 	return &controller{actions: make(map[string]fullAction)}
 }
 
+func (c *controller) SetAction(pattern string, action func(writer http.ResponseWriter, request *http.Request), fn func() interface{}) *controller {
+	var act = c.actions[pattern]
+	act.action = action
+	act.requestStructFunc = fn
+	c.actions[pattern] = act
+
+	return c
+}
+
 func (c *controller) AddAction(pattern string, action func(writer http.ResponseWriter, request *http.Request)) *controller {
 	var act = c.actions[pattern]
 	act.action = action
