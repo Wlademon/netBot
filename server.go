@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-chi/chi/v5"
+	_ "github.com/go-openapi/errors"
 	"net/http"
 	"strconv"
 )

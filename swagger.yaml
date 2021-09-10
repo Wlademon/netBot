@@ -1,0 +1,30 @@
+swagger: '2.0'
+info:
+  description: 'Простой JSON WEB-сервер на GOLANG'
+  version: 1.0.0
+  title: wla-micro-server
+host: localhost
+basePath: /api/
+tags:
+  - name: Telegram
+    description: Api for telegram
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /tg:
+    get:
+      tags:
+        - Telegram
+      responses:
+        404:
+          description: Invalid input
+
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
